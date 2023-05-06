@@ -1,0 +1,162 @@
+#include <iostream>
+
+using namespace std;
+
+class node {
+    public:
+        int data;
+        node *next;
+};
+
+class LinkedList {
+    node * head;
+    int size;
+    public:
+        LinkedList(){
+            head  = nullptr;
+            size = 0;
+        }
+        
+        void insert_end(int value){
+            node* newNode = new node;
+            newNode -> data = value;
+            newNode -> next = nullptr;
+            
+            if(head == nullptr){
+                head = newNode;
+            }
+            else {
+                node *temp = head;
+                while(temp -> next != nullptr){
+                    temp = temp->next;
+                }
+                temp -> next = newNode;
+            }
+            size++;
+        }
+        
+        void insert_begin(int value){
+            node* newNode = new node;
+            newNode -> data = value;
+            newNode -> next = nullptr;
+            
+            if(head == nullptr){
+                head = newNode;
+            }
+            else {
+                node *temp = head;
+                head = newNode;
+                newNode->next = temp;
+            }
+            size++;
+        }
+        
+        void display(){
+            if(head == nullptr){
+                cout<<"No linkedlist exits"<<endl;
+            }
+            else{
+                node * temp = head;
+                while(temp != nullptr){
+                    cout<<temp->data<<" ";
+                    temp = temp->next;
+                }
+            }
+            
+        }
+        
+        void delete_end() {
+            if(head == nullptr){
+                return;
+            }
+            else {
+                node *temp = head;
+                while(temp->next->next != nullptr){
+                    temp = temp -> next;
+                }
+                temp -> next = nullptr;
+            }
+        }
+        
+        void delete_begin() {
+            if(head == nullptr){
+                return;
+            }
+            else {
+                node *temp = head;
+                head = temp -> next;
+                free(temp);
+            }
+        }
+        
+        int length(){
+            int count;
+             if(head == nullptr){
+                return -1;
+            }
+            else{
+                node *temp = head;
+                while(temp != nullptr){
+                    count ++;
+                    temp = temp -> next;
+                }
+            }
+            return count;
+        }
+        
+        int middle_element(){
+            if(head == nullptr){
+                return -1;
+            }
+            else {
+                node *half, *full;
+                half = head;
+                full = head;
+                while(full != nullptr){
+                    half = half->next;
+                    full = full->next->next;
+                }
+                return half->data;
+            }
+        }
+        
+        void delete_middle(){
+             if(head == nullptr){
+                return;
+            }
+            else {
+                node *half, *full, *prev;
+                half = head;
+                full = head;
+                prev = nullptr;
+                while(full != nullptr && full->next != nullptr){
+                    prev = half;
+                    half = half->next;
+                    full = full->next->next;
+                }
+                prev->next = half->next;
+                delete half;
+                size--;
+            }
+        }
+};
+
+int main() {
+    LinkedList myList;
+    myList.insert_end(14);
+    myList.insert_begin(13);
+    myList.insert_begin(12);
+    myList.insert_end(18);
+    myList.insert_end(54);
+    myList.insert_end(79);
+    
+    myList.display();
+    int m = myList.middle_element();
+    cout<<endl;
+    cout<<m<<endl;
+    myList.delete_middle();
+    myList.display();
+    cout<<endl;
+    int len = myList.length();
+    cout<<len;
+}
